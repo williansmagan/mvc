@@ -1,0 +1,27 @@
+services:
+  php: 
+    image: php:8.3.0-apache
+    container_name: php-mvc
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www/html
+    links:
+      - db
+
+  db:
+    image: mariadb
+    container_name: mariadb-mvc
+    ports:
+      - 3306:3306
+    volumes:
+      - /var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+    
+#docker-compose exec php docker-php-ext-install pdo pdo_mysql mysqli exif
+#docker exec -it 60d704912ed8  bash
+#cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/
+#apt update && apt upgrade && apt install -y \ libfreetype-dev \ libjpeg62-turbo-dev \ libpng-dev \ && docker-php-ext-configure gd --with-freetype --with-jpeg \ && docker-php-ext-install -j$(nproc) gd
+#apt update && apt upgrade && apt install -y libicu-dev && rm -rf /var/lib/apt/lists/* \ && docker-php-ext-install intl

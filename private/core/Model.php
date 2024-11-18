@@ -6,6 +6,7 @@ Trait Model {
 
     protected $limit  = 100;
     protected $offset = 0;
+    public $error     = []; 
 
     public function test() {
         $sql = 'SELECT * FROM user';

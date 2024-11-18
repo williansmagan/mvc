@@ -1,0 +1,53 @@
+    
+    <main>
+        <h1>Área Administrativa de Usuários</h1>
+        <p><a href="<?=SITE?>/admin">Dashboard</a></p>
+        <p><a href="<?=SITE?>/logoff">Sair</a></p>
+        <p>Para acessar a página principal, <a href="<?=SITE?>">clique aqui</a>.</p>
+
+        <form method="post">
+<?php if(!empty($data['error'])):?>
+            <?=implode('<br>', $data['error'])?>
+<?php endif;?>
+
+<?php if(!empty($data['success'])):?>
+            <?=$data['success']?>
+<?php endif;?>
+            <label>Primeiro Nome:</label><input name="user_firstName" type="text">
+            <label>Sobrenome:</label><input name="user_lastName" type="text">
+            <label>E-mail:</label><input name="user_email" type="email">
+            <label>Senha::</label><input name="user_password" type="password">
+            <button type="submit">Gravar</button>
+        </form>
+
+        <section class="listUser">
+            <table style="width:100%">
+                <tr>
+                    <th>ID</th>
+                    <th>Primeiro Nome</th>
+                    <th>Sobrenome</th>
+                    <th>E-mail</th>
+                    <th>Status</th>
+                </tr>
+
+<?php foreach ($data['result_user'] as $key) : ?>
+                <tr>
+                    <td><?=$key->user_id?></td>
+                    <td><?=$key->user_firstName?></td>
+                    <td><?=$key->user_lastName?></td>
+                    <td><?=$key->user_email?></td>
+<?php if($key->user_status_id == 1) : ?>
+                    <td>Ativo</td>
+<?php elseif($key->user_status_id == 2) : ?>
+                    <td>Desativado</td>
+<?php else: ?>
+                    <td>Excluído</td>
+<?php endif;?>
+                    <td><a href="<?=SITE?>/admin/user/edit/<?=$key->user_id?>">Editar</a></td>
+                    <td><a href="<?=SITE?>/admin/user/delete/<?=$key->user_id?>">Excluir</a></td>
+                </tr>
+<?php endforeach;?>
+            </table>
+        </section>
+    </main>
+    

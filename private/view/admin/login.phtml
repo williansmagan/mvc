@@ -1,0 +1,16 @@
+    
+    <main>
+        <h1>Login</h1>
+<?php if(!empty($data['error'])):?>
+        <?=implode('<br>', $data['error'])?>
+<?php endif;?>
+<?php if(!empty($data['error1'])):?>
+        <?=$data['error1']?>
+<?php endif;?>
+        <form method="POST">
+            <input name="user_email" type="email" placeholder="E-mail">
+            <input name="user_password" type="password" placeholder="Senha">
+            <button type="submit">ACESSAR</button>
+        </form>
+    </main>
+    

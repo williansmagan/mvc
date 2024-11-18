@@ -14,15 +14,15 @@ class Admin {
             'session'    => $_SESSION['user_logged'],
         ];
 
-        $this->view('header', $data);
+        $this->view('admin/header', $data);
         $this->view('admin/home', $data);
-        $this->view('footer');
+        $this->view('admin/footer');
     }
 
     public function user($param1 = '', $param2 = '') {
         $error   = '';
         $success = '';
-        
+
         $user = new User();
         if(!empty($_POST)) {
             if($user->validateCreate($_POST)) {
@@ -61,10 +61,11 @@ class Admin {
             'result_user' => $result,
             'error'       => $error,
             'success'     => $success,
+            'session'    => $_SESSION['user_logged'],
         ];
 
-        $this->view('header', $data);
+        $this->view('admin/header', $data);
         $this->view('admin/user/home', $data);
-        $this->view('footer');  
+        $this->view('admin/footer');  
     }
 }

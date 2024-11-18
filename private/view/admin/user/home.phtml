@@ -1,10 +1,6 @@
     
     <main>
         <h1>Área Administrativa de Usuários</h1>
-        <p><a href="<?=SITE?>/admin">Dashboard</a></p>
-        <p><a href="<?=SITE?>/logoff">Sair</a></p>
-        <p>Para acessar a página principal, <a href="<?=SITE?>">clique aqui</a>.</p>
-
         <form method="post">
 <?php if(!empty($data['error'])):?>
             <?=implode('<br>', $data['error'])?>

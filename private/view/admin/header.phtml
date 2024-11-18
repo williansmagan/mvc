@@ -10,13 +10,10 @@
     <header>
         <img>
         <nav>
-            <a href="<?=SITE?>">Página Inicial</a>
-<?php if(empty($_SESSION['user_logged'])):?>
-            <a href="<?=SITE?>/login">Acessar</a>
-<?php else:?>
             <a href="<?=SITE?>/admin">Dashboard</a>
-            Olá, <?=$_SESSION['user_logged']->user_firstName?>
+            <a href="<?=SITE?>/admin/user">Usuários </a>
             <a href="<?=SITE?>/logoff">Sair </a>
-<?php endif;?>
+            <a href="<?=SITE?>">Visitar Site </a>
+            Olá, <?=$data['session']->user_firstName?>
         </nav>
     </header>

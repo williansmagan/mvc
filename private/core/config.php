@@ -1,4 +1,6 @@
 <?php
+defined('ROOTHPATH') OR exit('Access denied');
+
 date_default_timezone_set('America/Sao_Paulo');
 setlocale(LC_ALL, "pt-BR.UTF-8");
 

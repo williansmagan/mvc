@@ -1,4 +1,5 @@
 <?php
+defined('ROOTHPATH') OR exit('Access denied');
 class Install {
     use \Core\Controller;
 
@@ -39,15 +40,18 @@ class Install {
 
 		$sql = 'CREATE TABLE IF NOT EXISTS `user` (
 			user_id INT(8) UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+            user_code_unique CHAR(11) COLLATE utf8mb4_general_ci NOT NULL,
 			user_firstName VARCHAR(30) COLLATE utf8mb4_general_ci NOT NULL,
 			user_lastName VARCHAR(70) COLLATE utf8mb4_general_ci NOT NULL,
 			user_email VARCHAR(50) COLLATE utf8mb4_general_ci NOT NULL,
 			user_password VARCHAR(255) COLLATE utf8mb4_general_ci NOT NULL,
 			user_image VARCHAR(1024) COLLATE utf8mb4_general_ci NULL,
 			user_dateRegistered DATETIME DEFAULT CURRENT_TIMESTAMP,
+            user_dateUpdate DATETIME DEFAULT CURRENT_TIMESTAMP,
 			user_profile_id INT(2) NOT NULL,
 			user_status_id INT(2) NOT NULL,
 			user_dateStatus DATETIME DEFAULT CURRENT_TIMESTAMP,
+            KEY user_code_unique (user_code_unique),
 			KEY user_firstName (user_firstName),
 			KEY user_lastName (user_lastName),
 			KEY user_email (user_email),
@@ -63,7 +67,7 @@ class Install {
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $count = $stmt->rowCount();
-        if(!$count == 1) {
+        if($count == 0 || empty($count)) {
             $sql = "INSERT INTO `status` (status_name) VALUES ('enable')";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
@@ -89,7 +93,7 @@ class Install {
             $stmt = $conn->prepare($sql);
             $stmt->execute();		
             
-            $sql = "INSERT INTO `user` (user_firstName, user_lastName, user_email, user_password, user_dateRegistered, user_profile_id, user_status_id, user_dateStatus) VALUES ('Administrador', 'Sistema', 'admin@mvc.mvc', '" . hash_password('admin') . "', '" . default_date() . "', 1, 1, '" . default_date() . "')";
+            $sql = "INSERT INTO `user` (user_code_unique, user_firstName, user_lastName, user_email, user_password, user_dateRegistered, user_dateUpdate, user_profile_id, user_status_id, user_dateStatus) VALUES ('00000000000', 'Administrador', 'Sistema', 'admin@admin.adm', '" . hash_password('admin') . "', '" . default_date() . "', '" . default_date() . "', 1, 1, '" . default_date() . "')";
             $stmt = $conn->prepare($sql);
             $stmt->execute();	
         }

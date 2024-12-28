@@ -1,21 +1,61 @@
-    
-    <main>
-        <h1>Área Administrativa de Usuários</h1>
-        <form method="post">
-<?php if(!empty($data['error'])):?>
-            <?=implode('<br>', $data['error'])?>
-<?php endif;?>
 
-<?php if(!empty($data['success'])):?>
-            <?=$data['success']?>
-<?php endif;?>
-            <label>Primeiro Nome:</label><input name="user_firstName" type="text">
-            <label>Sobrenome:</label><input name="user_lastName" type="text">
-            <label>E-mail:</label><input name="user_email" type="email">
-            <label>Senha::</label><input name="user_password" type="password">
+<?php if($action == 'create'):?>
+    <main>
+        <h1>Novo Usuário | Área Administrativa de Usuários</h1>
+    <?php if(!empty($data['message'])):?>
+        <?=implode('<br>', $data['message'])?>
+    <?php endif;?>
+        <form method="post">
+            <input name="user_firstName" type="text" placeholder="Primeiro Nome" value="<?=old_value('user_firstName')?>">
+            <input name="user_lastName" type="text" placeholder="Sobrenome" value="<?=old_value('user_lastName')?>">
+            <input name="user_email" type="email" placeholder="E-mail" value="<?=old_value('user_email')?>">
+            <input name="user_password" type="password" placeholder="Senha">
             <button type="submit">Gravar</button>
         </form>
-
+    </main>
+<?php elseif($action == 'edit'):?>
+    <main>
+        <h1>Editar Usuário | Área Administrativa de Usuários</h1>
+    <?php if(!empty($data['result'])):?>
+        <?php if(!empty($data['message'])):?>
+        <?=implode('<br>', $data['message'])?>
+        <?php endif;?>
+        <form method="post">
+            <input name="user_firstName" type="text" placeholder="Primeiro Nome" value="<?=old_value('user_firstName', $data['result'][0]->user_firstName)?>">
+            <input name="user_lastName" type="text" placeholder="Sobrenome" value="<?=old_value('user_lastName', $data['result'][0]->user_lastName)?>">
+            <input name="user_email" type="email" placeholder="E-mail" value="<?=old_value('user_email', $data['result'][0]->user_email)?>" disabled>
+            <input name="user_password" type="password" placeholder="Senha">
+            <button type="submit">Atualizar</button>
+        </form>
+    <?php else:?>
+        <h2>Registro não localizado</h2>
+    <?php endif;?>
+    </main>
+<?php elseif($action == 'delete'):?>
+    <main>
+        <h1>Deletar Usuário | Área Administrativa de Usuários</h1>
+    <?php if(!empty($data['result'])):?>
+        <?php if(!empty($data['message'])):?>
+        <?=implode('<br>', $data['message'])?>
+        <?php endif;?>
+        <form method="post">
+            <input name="user_firstName" type="text" placeholder="Primeiro Nome" value="<?=old_value('user_firstName', $data['result'][0]->user_firstName)?>" disabled>
+            <input name="user_lastName" type="text" placeholder="Sobrenome" value="<?=old_value('user_lastName', $data['result'][0]->user_lastName)?>" disabled>
+            <input name="user_email" type="email" placeholder="E-mail" value="<?=old_value('user_email', $data['result'][0]->user_email)?>" disabled>
+            <input name="user_password" type="password" placeholder="Senha" disabled>
+            <button type="submit">Deletar Usuário</button>
+        </form>
+    <?php else:?>
+        <h2>Registro não localizado</h2>
+    <?php endif;?>
+    </main>
+<?php else:?>
+    <main>
+        <h1>Área Administrativa de Usuários</h1>
+<?php if(!empty($data['message'])):?>
+        <?=implode('<br>', $data['message'])?>
+<?php endif;?>
+        <a href="<?=SITE?>/admin/user/create"><button>Novo</button></a>
         <section class="listUser">
             <table style="width:100%">
                 <tr>
@@ -26,7 +66,7 @@
                     <th>Status</th>
                 </tr>
 
-<?php foreach ($data['result_user'] as $key) : ?>
+<?php foreach ($data['result'] as $key) : ?>
                 <tr>
                     <td><?=$key->user_id?></td>
                     <td><?=$key->user_firstName?></td>
@@ -39,11 +79,18 @@
 <?php else: ?>
                     <td>Excluído</td>
 <?php endif;?>
-                    <td><a href="<?=SITE?>/admin/user/edit/<?=$key->user_id?>">Editar</a></td>
-                    <td><a href="<?=SITE?>/admin/user/delete/<?=$key->user_id?>">Excluir</a></td>
+                    <td>
+                        <a href="<?=SITE?>/admin/user/edit/<?=$key->user_id?>">
+                            <button>Editar</button>
+                        </a>
+                        <a href="<?=SITE?>/admin/user/delete/<?=$key->user_id?>">
+                            <button>Deletar</button>
+                        </a>
+                    </td>
                 </tr>
 <?php endforeach;?>
             </table>
         </section>
     </main>
+<?php endif;?>
     

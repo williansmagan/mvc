@@ -1,0 +1,22 @@
+    
+    <main>
+        <h1>Área Administrativa de Usuários</h1>
+        <form method="post">
+<?php if(!empty($data['error'])):?>
+            <?=implode('<br>', $data['error'])?>
+<?php endif;?>
+
+<?php if(!empty($data['success'])):?>
+            <?=$data['success']?>
+<?php endif;?>
+            <?php show($data['result_user']);?>
+            <label>ID:</label><input name="user_id" type="number" value="<?=$data['result_user']->user_id?>" disabled>
+            <label>Primeiro Nome:</label><input name="user_firstName" type="text" value="<?=$data['result_user']->user_firstName?>">
+            <label>Sobrenome:</label><input name="user_lastName" type="text" value="<?=$data['result_user']->user_lastName?>">
+            <label>E-mail:</label><input name="user_email" type="email" value="<?=$data['result_user']->user_email?>" disabled>
+            <label>Senha:</label><input name="user_password" type="password">
+            <label>Perfil:</label>
+            <button type="submit">Atualizar</button>
+        </form>
+    </main>
+    

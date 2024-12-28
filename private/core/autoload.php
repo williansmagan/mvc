@@ -1,4 +1,6 @@
 <?php
+defined('ROOTHPATH') OR exit('Access denied');
+
 spl_autoload_register(function($className) {
     require $filename = '../private/model/' . ucfirst($className) . '.php';
 });

@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+defined('ROOTHPATH') OR exit('Access denied');
 
 Trait Controller {
     private $view = '404';

@@ -1,5 +1,7 @@
 <?php
 namespace Core;
+defined('ROOTHPATH') OR exit('Access denied');
+
 
 Trait Database {
     private function connect() {
@@ -8,7 +10,7 @@ Trait Database {
         return $conn;
     }
 
-    public function query($sql, $data = []) {
+    public function query($sql = '', $data = []) {
         $conn = $this->connect();
         $stmt = $conn->prepare($sql);
         $check = $stmt->execute($data);

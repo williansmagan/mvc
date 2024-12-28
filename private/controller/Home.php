@@ -1,4 +1,5 @@
 <?php
+defined('ROOTHPATH') OR exit('Access denied');
 class Home {
     use \Core\Controller;
 

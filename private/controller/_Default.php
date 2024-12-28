@@ -1,4 +1,5 @@
 <?php
+defined('ROOTHPATH') OR exit('Access denied');
 class Home {
     use \Core\Controller;
     use \Core\Model;
@@ -111,3 +112,21 @@ class Home {
         $this->view('footer');
     }
 }
+
+
+/*
+        <form method="post">
+<?php if(!empty($data['error'])):?>
+            <?=implode('<br>', $data['error'])?>
+<?php endif;?>
+
+<?php if(!empty($data['success'])):?>
+            <?=$data['success']?>
+<?php endif;?>
+            <label>Primeiro Nome:</label><input name="user_firstName" type="text">
+            <label>Sobrenome:</label><input name="user_lastName" type="text">
+            <label>E-mail:</label><input name="user_email" type="email">
+            <label>Senha:</label><input name="user_password" type="password">
+            <button type="submit">Gravar</button>
+        </form>
+        */

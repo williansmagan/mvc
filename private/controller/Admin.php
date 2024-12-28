@@ -1,4 +1,5 @@
 <?php
+defined('ROOTHPATH') OR exit('Access denied');
 class Admin {
     use \Core\Controller;
 
@@ -19,49 +20,43 @@ class Admin {
         $this->view('admin/footer');
     }
 
-    public function user($param1 = '', $param2 = '') {
-        $error   = '';
-        $success = '';
-
+    public function user($action = '', $param = '') {
         $user = new User();
-        if(!empty($_POST)) {
-            if($user->validateCreate($_POST)) {
-                $values = [
-                    'user_firstName' => $_POST['user_firstName'],
-                    'user_lastName' => $_POST['user_lastName'],
-                    'user_email' => $_POST['user_email'],
-                    'user_password' => hash_password($_POST['user_password'],),
-                    'user_dateRegistered' => default_date(),
-                    'user_profile_id' => 2, 
-                    'user_status_id' => 1, 
-                    'user_dateStatus' => default_date(),
-                ];
-                $result = $user->create($values);
-                $success = 'Usuário cadastrado com sucesso!';
+        $result = [];
+
+        if($action == 'create') {
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $res = $user->createUser($_POST);
+                if($res) {
+                    redirect('/admin/user');
+                }
             }
-            $error = $user->error;
+        } elseif($action == 'edit') {
+            $result = $user->listUniqueUser($param);
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_POST['user_id'] = $param;
+                if($user->updateUser($_POST)) {
+                    redirect('/admin/user');                
+                }
+            }
+        } elseif($action == 'delete') {
+            $result = $user->listUniqueUser($param);
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_POST['user_id'] = $param;
+                if($user->deleteUser($_POST)) {
+                    redirect('/admin/user');                
+                }
+            }
+        } else {
+            $result = $user->listUser();
         }
 
-        $read_columns = [
-            'user_id',
-            'user_firstName',
-            'user_lastName',
-            'user_email',
-            'user_status_id',
-        ];
-        $read_where = [];
-        $read_order_columns = ['user_id',];
-        $read_order_type = 'ASC';
-        $read_limit = '';
-        $read_offset = '';
-        $result = $user->read($read_columns, $read_where, $read_order_columns, $read_order_type, $read_limit, $read_offset);
-
         $data = [
-            'page_title'  => 'User Dashboard | ',
-            'result_user' => $result,
-            'error'       => $error,
-            'success'     => $success,
+            'page_title' => 'User Dashboard | ',
+            'action'     => $action,
+            'message'    => $user->message,
             'session'    => $_SESSION['user_logged'],
+            'result'     => $result,
         ];
 
         $this->view('admin/header', $data);

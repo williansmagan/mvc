@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+defined('ROOTHPATH') OR exit('Access denied');
 
 class App {
     private $controller = '_404';

@@ -11,7 +11,9 @@
         <img>
         <nav>
             <a href="<?=SITE?>/admin">Dashboard</a>
+<?php if($data['session']->user_profile_id == 1) :?>
             <a href="<?=SITE?>/admin/user">Usuários </a>
+<?php endif; ?>
             <a href="<?=SITE?>/logoff">Sair </a>
             <a href="<?=SITE?>">Visitar Site </a>
             Olá, <?=$data['session']->user_firstName?>

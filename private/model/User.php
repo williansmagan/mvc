@@ -41,8 +41,10 @@ class User {
     public function validateCreate($data) {
         $this->message = [];
 
-        if(empty($data['user_code_unique'])) {
-            $this->message['error_user_code_unique'] = 'CPF vazio!';
+        if(empty($_SESSION['user_logged']) || !$_SESSION['user_logged']->user_profile_id == 1) {
+            if(empty($data['user_code_unique'])) {
+                $this->message['error_user_code_unique'] = 'CPF vazio!';
+            }
         }
 
         if(empty($data['user_firstName'])) {
@@ -59,19 +61,21 @@ class User {
             $this->message['error_user_email'] = 'E-mail inválido!';
         }
         
-        $read_columns = ['user_code_unique'];
-        $read_where = ['user_code_unique' => '%'.$data['user_code_unique']. '%'];
-        $read_order_columns = [];
-        $read_order_type = '';
-        $read_limit = '';
-        $read_offset = '';
-        $result = $this->read($read_columns, $read_where, $read_order_columns, $read_order_type, $read_limit, $read_offset);
-        if(!empty($result)) {
-            $this->message['error_user_code_unique'] = 'CPF já cadastrado!';
-        }
-
-        if(strlen($data['user_code_unique']) != 11) {
-            $this->message['error_user_code_unique'] = 'CPF inválido!';
+        if(!empty($data['user_code_unique'])) {
+            $read_columns = ['user_code_unique'];
+            $read_where = ['user_code_unique' => '%'.$data['user_code_unique']. '%'];
+            $read_order_columns = [];
+            $read_order_type = '';
+            $read_limit = '';
+            $read_offset = '';
+            $result = $this->read($read_columns, $read_where, $read_order_columns, $read_order_type, $read_limit, $read_offset);
+            if(!empty($result)) {
+                $this->message['error_user_code_unique'] = 'CPF já cadastrado!';
+            }
+    
+            if(strlen($data['user_code_unique']) != 11) {
+                $this->message['error_user_code_unique'] = 'CPF inválido!';
+            }
         }
 
         $read_columns = ['user_email'];
@@ -130,7 +134,7 @@ class User {
         if(!empty($data)) {
             if($this->validateCreate($data)) {
                 $values = [
-                    'user_code_unique'    => $data['user_code_unique'],
+                    'user_code_unique'    => $data['user_code_unique'] ?? '',
                     'user_firstName'      => $data['user_firstName'],
                     'user_lastName'       => $data['user_lastName'],
                     'user_email'          => $data['user_email'],

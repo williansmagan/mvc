@@ -60,6 +60,7 @@
             <table style="width:100%">
                 <tr>
                     <th>ID</th>
+                    <th>CPF</th>
                     <th>Primeiro Nome</th>
                     <th>Sobrenome</th>
                     <th>E-mail</th>
@@ -69,6 +70,7 @@
 <?php foreach ($data['result'] as $key) : ?>
                 <tr>
                     <td><?=$key->user_id?></td>
+                    <td><?=$key->user_code_unique?></td>
                     <td><?=$key->user_firstName?></td>
                     <td><?=$key->user_lastName?></td>
                     <td><?=$key->user_email?></td>

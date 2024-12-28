@@ -40,7 +40,7 @@ class Install {
 
 		$sql = 'CREATE TABLE IF NOT EXISTS `user` (
 			user_id INT(8) UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-            user_code_unique CHAR(11) COLLATE utf8mb4_general_ci NOT NULL,
+            user_code_unique CHAR(11) COLLATE utf8mb4_general_ci,
 			user_firstName VARCHAR(30) COLLATE utf8mb4_general_ci NOT NULL,
 			user_lastName VARCHAR(70) COLLATE utf8mb4_general_ci NOT NULL,
 			user_email VARCHAR(50) COLLATE utf8mb4_general_ci NOT NULL,
